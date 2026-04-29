@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRON COAST | Salle de Sport Abidjan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --orange: #FF5500;
+      --orange-vif: #FF7733;
+      --jaune: #FFB800;
+      --noir: #080808;
+      --gris-fonce: #111111;
+      --gris: #1A1A1A;
+      --gris-clair: #2A2A2A;
+      --texte: #E8E8E8;
+      --texte-dim: #888;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--noir);
+      color: var(--texte);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 22px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: all 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,0.97);
+      padding: 14px 60px;
+      border-bottom: 1px solid rgba(255,85,0,0.2);
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+    .nav-links a {
+      color: rgba(232,232,232,0.6);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-cta {
+      background: var(--orange);
+      color: #fff;
+      padding: 10px 26px;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: all 0.3s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .nav-cta:hover { background: var(--orange-vif); transform: translateY(-2px); }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1800&auto=format&fit=crop') center/cover no-repeat;
+      opacity: 0.25;
+      transform: scale(1.05);
+      animation: zoomOut 12s ease-out forwards;
+    }
+    @keyframes zoomOut { to { transform: scale(1); } }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, rgba(8,8,8,0.95) 40%, rgba(255,85,0,0.08) 100%);
+    }
+    .hero-grid-overlay {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,85,0,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,85,0,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 80px;
+      max-width: 900px;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 12px;
+      color: var(--orange);
+      font-size: 0.78rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 40px; height: 2px;
+      background: var(--orange);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      font-weight: 900;
+      line-height: 0.9;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      color: #fff;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 .highlight {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--orange);
+    }
+    .hero h1 .block { display: block; }
+    .hero-sub {
+      margin-top: 30px;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(232,232,232,0.55);
+      line-height: 1.7;
+      max-width: 480px;
+      letter-spacing: 0.3px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      margin-top: 44px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn-fire {
+      background: var(--orange);
+      color: #fff;
+      padding: 18px 44px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: all 0.3s;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-fire::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.4s;
+    }
+    .btn-fire:hover::after { transform: translateX(100%); }
+    .btn-fire:hover { background: var(--orange-vif); }
+    .btn-wire {
+      border: 2px solid rgba(232,232,232,0.2);
+      color: rgba(232,232,232,0.7);
+      padding: 18px 44px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    .btn-wire:hover { border-color: var(--orange); color: var(--orange); }
+
+    .hero-stats {
+      position: absolute; bottom: 50px; right: 80px;
+      display: flex; gap: 50px;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+    }
+    .hero-stat { text-align: right; }
+    .hero-stat strong {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .hero-stat span {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--texte-dim);
+      font-weight: 400;
+    }
+
+    /* SECTION COMMUNE */
+    section { padding: 110px 60px; }
+    .s-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--orange);
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .s-tag::before { content: '//'; opacity: 0.5; }
+    .s-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+    .orange-bar {
+      width: 50px; height: 4px;
+      background: var(--orange);
+      margin: 20px 0;
+    }
+
+    /* PROGRAMME */
+    .programme { background: var(--gris-fonce); }
+    .programme-header { margin-bottom: 70px; }
+    .programme-header p {
+      color: var(--texte-dim);
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 500px;
+      margin-top: 10px;
+    }
+    .prog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .prog-card {
+      background: var(--gris);
+      padding: 50px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s;
+      cursor: default;
+    }
+    .prog-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 4px; height: 0;
+      background: var(--orange);
+      transition: height 0.4s;
+    }
+    .prog-card:hover::before { height: 100%; }
+    .prog-card:hover { background: var(--gris-clair); transform: translateX(4px); }
+    .prog-icon {
+      font-size: 2.5rem;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .prog-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .prog-card p {
+      color: var(--texte-dim);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+    .prog-meta {
+      display: flex; gap: 20px;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 600;
+    }
+    .prog-num {
+      position: absolute; top: 30px; right: 30px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: rgba(255,85,0,0.06);
+      line-height: 1;
+    }
+
+    /* COACHS */
+    .coachs { background: var(--noir); }
+    .coachs-header { text-align: center; margin-bottom: 70px; }
+    .coachs-header .orange-bar { margin: 20px auto; }
+    .coachs-header p { color: var(--texte-dim); font-size: 1rem; font-weight: 300; max-width: 500px; margin: 0 auto; line-height: 1.8; }
+    .coachs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .coach-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--gris);
+    }
+    .coach-img {
+      width: 100%; height: 380px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      filter: grayscale(30%);
+      transition: all 0.5s;
+    }
+    .coach-card:hover .coach-img { filter: grayscale(0%) brightness(0.7); transform: scale(1.05); }
+    .coach-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 30px 24px 24px;
+      background: linear-gradient(transparent, rgba(8,8,8,0.95));
+      transform: translateY(20px);
+      transition: transform 0.4s;
+    }
+    .coach-card:hover .coach-info { transform: translateY(0); }
+    .coach-spec {
+      font-size: 0.68rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .coach-info h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+    .coach-info p {
+      font-size: 0.82rem;
+      color: rgba(232,232,232,0.55);
+      font-weight: 300;
+      margin-top: 6px;
+      opacity: 0;
+      transition: opacity 0.4s 0.1s;
+    }
+    .coach-card:hover .coach-info p { opacity: 1; }
+
+    /* TARIFS */
+    .tarifs {
+      background: var(--gris-fonce);
+      position: relative;
+      overflow: hidden;
+    }
+    .tarifs::before {
+      content: 'PRIX';
+      position: absolute;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18rem;
+      font-weight: 900;
+      color: rgba(255,85,0,0.03);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      letter-spacing: -10px;
+      white-space: nowrap;
+    }
+    .tarifs-header { text-align: center; margin-bottom: 70px; }
+    .tarifs-header .orange-bar { margin: 20px auto; }
+    .tarifs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      position: relative; z-index: 1;
+    }
+    .tarif-card {
+      background: var(--gris);
+      padding: 50px 40px;
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .tarif-card.featured {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+    .tarif-card.featured .tarif-price,
+    .tarif-card.featured .tarif-name,
+    .tarif-card.featured .tarif-period,
+    .tarif-card.featured li { color: #fff; }
+    .tarif-card.featured .tarif-desc { color: rgba(255,255,255,0.75); }
+    .tarif-card:not(.featured):hover { border-color: var(--orange); transform: translateY(-6px); }
+    .tarif-badge {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--jaune);
+      color: var(--noir);
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 4px 12px;
+    }
+    .tarif-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--texte-dim);
+      margin-bottom: 20px;
+    }
+    .tarif-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 4rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+    .tarif-period {
+      font-size: 0.8rem;
+      color: var(--texte-dim);
+      font-weight: 300;
+      margin-bottom: 30px;
+      margin-top: 4px;
+    }
+    .tarif-desc {
+      font-size: 0.85rem;
+      color: var(--texte-dim);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .tarif-card ul { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+    .tarif-card li {
+      font-size: 0.88rem;
+      color: var(--texte);
+      font-weight: 300;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .tarif-card li::before { content: '→'; color: var(--orange); font-weight: 700; }
+    .tarif-card.featured li::before { color: rgba(255,255,255,0.6); }
+    .btn-tarif {
+      display: block;
+      text-align: center;
+      padding: 16px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-tarif-outline {
+      border: 2px solid rgba(255,255,255,0.15);
+      color: var(--texte);
+    }
+    .btn-tarif-outline:hover { border-color: var(--orange); color: var(--orange); }
+    .btn-tarif-white {
+      background: #fff;
+      color: var(--orange);
+    }
+    .btn-tarif-white:hover { background: var(--noir); color: #fff; }
+
+    /* GALERIE */
+    .galerie { padding: 0; }
+    .galerie-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: 280px 280px;
+    }
+    .gal-item {
+      overflow: hidden;
+      position: relative;
+    }
+    .gal-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; }
+    .gal-item:nth-child(4) { grid-column: 4 / 6; }
+    .gal-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+      filter: brightness(0.7) saturate(0.8);
+    }
+    .gal-item:hover img { transform: scale(1.08); filter: brightness(0.9) saturate(1.1); }
+    .gal-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(255,85,0,0.6), transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; align-items: flex-end; padding: 20px;
+    }
+    .gal-item:hover .gal-overlay { opacity: 1; }
+    .gal-overlay span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    /* TEMOIGNAGES */
+    .temoignages { background: var(--gris-fonce); }
+    .temo-header { text-align: center; margin-bottom: 70px; }
+    .temo-header .orange-bar { margin: 20px auto; }
+    .temo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .temo-card {
+      background: var(--gris);
+      padding: 40px;
+      border-left: 4px solid var(--orange);
+      transition: transform 0.3s;
+    }
+    .temo-card:hover { transform: translateY(-4px); }
+    .temo-quote {
+      font-size: 2.5rem;
+      color: var(--orange);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .temo-card p {
+      font-size: 0.92rem;
+      color: var(--texte-dim);
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+    .temo-author { display: flex; align-items: center; gap: 14px; }
+    .temo-avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .temo-name strong { display: block; font-size: 0.9rem; font-weight: 600; color: #fff; }
+    .temo-name span { font-size: 0.75rem; color: var(--orange); font-weight: 400; letter-spacing: 1px; }
+
+    /* INSCRIPTION */
+    .inscription {
+      background: var(--noir);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .inscription-info p {
+      color: var(--texte-dim);
+      font-size: 0.95rem;
+      line-height: 1.9;
+      font-weight: 300;
+      margin-bottom: 36px;
+    }
+    .contact-items { display: flex; flex-direction: column; gap: 18px; }
+    .c-item {
+      display: flex; align-items: center; gap: 16px;
+      font-size: 0.88rem; color: rgba(232,232,232,0.6); font-weight: 300;
+    }
+    .c-icon {
+      width: 42px; height: 42px;
+      background: rgba(255,85,0,0.1);
+      border: 1px solid rgba(255,85,0,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    }
+    .ins-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .ins-form input,
+    .ins-form select,
+    .ins-form textarea {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--texte);
+      padding: 16px 20px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
+    .ins-form input::placeholder,
+    .ins-form textarea::placeholder { color: rgba(232,232,232,0.2); }
+    .ins-form input:focus,
+    .ins-form select:focus,
+    .ins-form textarea:focus { border-color: var(--orange); }
+    .ins-form select option { background: var(--gris-fonce); }
+    .ins-form textarea { height: 100px; resize: none; }
+    .btn-submit-fire {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 18px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    }
+    .btn-submit-fire:hover { background: var(--orange-vif); }
+
+    /* FOOTER */
+    footer {
+      background: #050505;
+      padding: 70px 60px 30px;
+      border-top: 1px solid rgba(255,85,0,0.15);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 50px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 30px;
+    }
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .footer-logo span { color: var(--orange); }
+    footer p { color: rgba(232,232,232,0.3); font-size: 0.85rem; font-weight: 300; line-height: 1.8; }
+    .footer-col h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-col ul a {
+      color: rgba(232,232,232,0.35);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 300;
+      transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: var(--orange); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      color: rgba(232,232,232,0.2);
+      font-size: 0.75rem; font-weight: 300;
+    }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links, .nav-cta { display: none; }
+      section { padding: 70px 24px; }
+      .hero-content { padding: 0 24px; }
+      .hero-stats { right: 24px; bottom: 30px; gap: 24px; }
+      .hero-stat strong { font-size: 2rem; }
+      .prog-grid, .tarifs-grid, .temo-grid { grid-template-columns: 1fr; }
+      .coachs-grid { grid-template-columns: 1fr 1fr; }
+      .galerie-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gal-item:nth-child(1), .gal-item:nth-child(4) { grid-column: auto; grid-row: auto; }
+      .inscription { grid-template-columns: 1fr; gap: 50px; }
+      .footer-top { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 50px 24px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Iron <span>Coast</span></a>
+    <ul class="nav-links">
+      <li><a href="#programme">Programmes</a></li>
+      <li><a href="#coachs">Coachs</a></li>
+      <li><a href="#tarifs">Tarifs</a></li>
+      <li><a href="#inscription">Contact</a></li>
+    </ul>
+    <a href="#inscription" class="nav-cta">S'inscrire</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Salle de sport premium · Abidjan</div>
+      <h1>
+        <span class="block">Forge</span>
+        <span class="block highlight">Ton</span>
+        <span class="block">Corps</span>
+      </h1>
+      <p class="hero-sub">La salle de sport la plus complète d'Abidjan. Équipements haut de gamme, coachs certifiés et programmes sur mesure pour atteindre vos objectifs.</p>
+      <div class="hero-btns">
+        <a href="#inscription" class="btn-fire">Commencer maintenant</a>
+        <a href="#programme" class="btn-wire">Voir les programmes</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <strong>500+</strong>
+        <span>Membres actifs</span>
+      </div>
+      <div class="hero-stat">
+        <strong>12</strong>
+        <span>Coachs certifiés</span>
+      </div>
+      <div class="hero-stat">
+        <strong>5★</strong>
+        <span>Note Google</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMMES -->
+  <section class="programme" id="programme">
+    <div class="programme-header reveal">
+      <span class="s-tag">Ce qu'on propose</span>
+      <h2 class="s-title">Nos programmes</h2>
+      <div class="orange-bar"></div>
+      <p>Des programmes adaptés à tous les niveaux, du débutant au confirmé.</p>
+    </div>
+    <div class="prog-grid">
+      <div class="prog-card reveal">
+        <div class="prog-num">01</div>
+        <span class="prog-icon">🏋️</span>
+        <h3>Musculation</h3>
+        <p>Prise de masse, sèche ou remise en forme. Nos coachs conçoivent un plan d'entraînement 100% personnalisé.</p>
+        <div class="prog-meta"><span>Tous niveaux</span><span>6j/7</span></div>
+      </div>
+      <div class="prog-card reveal">
+        <div class="prog-num">02</div>
+        <span class="prog-icon">🥊</span>
+        <h3>Boxe & Cardio</h3>
+        <p>Boxe anglaise, kickboxing, HIIT intense. Brûlez les graisses et gagnez en endurance rapidement.</p>
+        <div class="prog-meta"><span>Intermédiaire</span><span>4j/7</span></div>
+      </div>
+      <div class="prog-card reveal">
+        <div class="prog-num">03</div>
+        <span class="prog-icon">🧘</span>
+        <h3>Yoga & Pilates</h3>
+        <p>Flexibilité, équilibre et récupération musculaire. Idéal en complément d'un entraînement intensif.</p>
+        <div class="prog-meta"><span>Tous niveaux</span><span>5j/7</span></div>
+      </div>
+      <div class="prog-card reveal">
+        <div class="prog-num">04</div>
+        <span class="prog-icon">🚴</span>
+        <h3>Cycling</h3>
+        <p>Séances de vélo stationnaire en groupe avec musique et coach. Cardio intense et motivation garantis.</p>
+        <div class="prog-meta"><span>Débutant</span><span>3j/7</span></div>
+      </div>
+      <div class="prog-card reveal">
+        <div class="prog-num">05</div>
+        <span class="prog-icon">🏃</span>
+        <h3>Crossfit</h3>
+        <p>Entraînement fonctionnel, varié et intense. Puissance, agilité et endurance au programme.</p>
+        <div class="prog-meta"><span>Avancé</span><span>5j/7</span></div>
+      </div>
+      <div class="prog-card reveal">
+        <div class="prog-num">06</div>
+        <span class="prog-icon">💪</span>
+        <h3>Personal Training</h3>
+        <p>Suivi individuel 1-on-1 avec votre coach attitré. L'option la plus efficace pour des résultats rapides.</p>
+        <div class="prog-meta"><span>Sur mesure</span><span>Sur RDV</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COACHS -->
+  <section class="coachs" id="coachs">
+    <div class="coachs-header reveal">
+      <span class="s-tag">L'équipe</span>
+      <h2 class="s-title">Nos coachs</h2>
+      <div class="orange-bar"></div>
+      <p>Des professionnels certifiés, passionnés et dédiés à vos progrès.</p>
+    </div>
+    <div class="coachs-grid">
+      <div class="coach-card reveal">
+        <img class="coach-img" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=500&auto=format&fit=crop" alt="Coach musculation">
+        <div class="coach-info">
+          <div class="coach-spec">Musculation</div>
+          <h3>Kofi Mensah</h3>
+          <p>8 ans d'expérience · Certifié NASM</p>
+        </div>
+      </div>
+      <div class="coach-card reveal">
+        <img class="coach-img" src="https://images.unsplash.com/photo-1554284126-aa88f22d8b74?w=500&auto=format&fit=crop" alt="Coach boxe">
+        <div class="coach-info">
+          <div class="coach-spec">Boxe & Cardio</div>
+          <h3>Aya Traoré</h3>
+          <p>Championne nationale · 5 ans de coaching</p>
+        </div>
+      </div>
+      <div class="coach-card reveal">
+        <img class="coach-img" src="https://images.unsplash.com/photo-1567013127542-490d757e6349?w=500&auto=format&fit=crop" alt="Coach crossfit">
+        <div class="coach-info">
+          <div class="coach-spec">Crossfit</div>
+          <h3>Seydou Bamba</h3>
+          <p>CrossFit Level 2 · Ex athlète</p>
+        </div>
+      </div>
+      <div class="coach-card reveal">
+        <img class="coach-img" src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=500&auto=format&fit=crop" alt="Coach yoga">
+        <div class="coach-info">
+          <div class="coach-spec">Yoga & Pilates</div>
+          <h3>Fatou Coulibaly</h3>
+          <p>Yoga Alliance 500h · Bien-être holistique</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TARIFS -->
+  <section class="tarifs" id="tarifs">
+    <div class="tarifs-header reveal">
+      <span class="s-tag">Investissez en vous</span>
+      <h2 class="s-title">Nos abonnements</h2>
+      <div class="orange-bar"></div>
+    </div>
+    <div class="tarifs-grid">
+      <div class="tarif-card reveal">
+        <div class="tarif-name">Starter</div>
+        <div class="tarif-price">15 000</div>
+        <div class="tarif-period">FCFA / mois</div>
+        <div class="tarif-desc">Parfait pour débuter et prendre de bonnes habitudes à votre rythme.</div>
+        <ul>
+          <li>Accès salle 6j/7</li>
+          <li>Vestiaires & douches</li>
+          <li>1 bilan de forme</li>
+          <li>Accès cardio & machines</li>
+        </ul>
+        <a href="#inscription" class="btn-tarif btn-tarif-outline">Choisir ce plan</a>
+      </div>
+      <div class="tarif-card featured reveal">
+        <div class="tarif-badge">⭐ Populaire</div>
+        <div class="tarif-name">Elite</div>
+        <div class="tarif-price">28 000</div>
+        <div class="tarif-period">FCFA / mois</div>
+        <div class="tarif-desc">Le plan complet pour des résultats visibles et durables.</div>
+        <ul>
+          <li>Accès illimité 7j/7</li>
+          <li>4 séances coach/mois</li>
+          <li>Programme personnalisé</li>
+          <li>Cours collectifs inclus</li>
+          <li>Suivi nutritionnel</li>
+        </ul>
+        <a href="#inscription" class="btn-tarif btn-tarif-white">Choisir ce plan</a>
+      </div>
+      <div class="tarif-card reveal">
+        <div class="tarif-name">VIP</div>
+        <div class="tarif-price">55 000</div>
+        <div class="tarif-period">FCFA / mois</div>
+        <div class="tarif-desc">L'expérience ultime avec un suivi individuel total et accès prioritaire.</div>
+        <ul>
+          <li>Accès illimité & prioritaire</li>
+          <li>Coach personnel dédié</li>
+          <li>12 séances PT/mois</li>
+          <li>Plan nutrition complet</li>
+          <li>Récupération & massages</li>
+          <li>Accès lounge VIP</li>
+        </ul>
+        <a href="#inscription" class="btn-tarif btn-tarif-outline">Choisir ce plan</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIE -->
+  <div class="galerie">
+    <div class="galerie-grid">
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&auto=format&fit=crop" alt="Salle fitness">
+        <div class="gal-overlay"><span>Notre salle</span></div>
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&auto=format&fit=crop" alt="Musculation">
+        <div class="gal-overlay"><span>Musculation</span></div>
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=600&auto=format&fit=crop" alt="Boxe">
+        <div class="gal-overlay"><span>Boxe</span></div>
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=900&auto=format&fit=crop" alt="Coaching">
+        <div class="gal-overlay"><span>Coaching</span></div>
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&auto=format&fit=crop" alt="Yoga">
+        <div class="gal-overlay"><span>Yoga</span></div>
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&auto=format&fit=crop" alt="Cardio">
+        <div class="gal-overlay"><span>Cardio</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TÉMOIGNAGES -->
+  <section class="temoignages">
+    <div class="temo-header reveal">
+      <span class="s-tag">Ils témoignent</span>
+      <h2 class="s-title">Nos membres parlent</h2>
+      <div class="orange-bar"></div>
+    </div>
+    <div class="temo-grid">
+      <div class="temo-card reveal">
+        <div class="temo-quote">"</div>
+        <p>En 3 mois avec Iron Coast j'ai perdu 12kg et retrouvé une énergie incroyable. Le coach Kofi est exceptionnel, il a tout changé pour moi.</p>
+        <div class="temo-author">
+          <div class="temo-avatar">A</div>
+          <div class="temo-name">
+            <strong>Adama Koné</strong>
+            <span>Membre depuis 8 mois</span>
+          </div>
+        </div>
+      </div>
+      <div class="temo-card reveal">
+        <div class="temo-quote">"</div>
+        <p>La meilleure salle d'Abidjan sans hésiter. Les équipements sont neufs, l'ambiance est motivante et les coachs sont toujours disponibles.</p>
+        <div class="temo-author">
+          <div class="temo-avatar">M</div>
+          <div class="temo-name">
+            <strong>Marie Kouassi</strong>
+            <span>Membre depuis 1 an</span>
+          </div>
+        </div>
+      </div>
+      <div class="temo-card reveal">
+        <div class="temo-quote">"</div>
+        <p>Le plan VIP vaut vraiment chaque franc. Mon coach m'a aidé à prendre 8kg de muscle en 5 mois. Les résultats parlent d'eux-mêmes !</p>
+        <div class="temo-author">
+          <div class="temo-avatar">I</div>
+          <div class="temo-name">
+            <strong>Ibrahim Diallo</strong>
+            <span>Membre VIP depuis 6 mois</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSCRIPTION -->
+  <section class="inscription" id="inscription">
+    <div class="inscription-info reveal">
+      <span class="s-tag">Rejoins-nous</span>
+      <h2 class="s-title">Commence<br>aujourd'hui</h2>
+      <div class="orange-bar"></div>
+      <p>Remplis le formulaire et on te rappelle dans les 24h pour démarrer ton parcours fitness.</p>
+      <div class="contact-items">
+        <div class="c-item"><div class="c-icon">📍</div> Cocody II Plateaux, Abidjan</div>
+        <div class="c-item"><div class="c-icon">📞</div> +225 07 00 00 00 00</div>
+        <div class="c-item"><div class="c-icon">🕐</div> Lun – Sam : 6h00 – 22h00</div>
+        <div class="c-item"><div class="c-icon">💬</div> WhatsApp disponible 7j/7</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="ins-form">
+        <div class="form-row">
+          <input type="text" placeholder="Prénom & Nom">
+          <input type="tel" placeholder="Téléphone">
+        </div>
+        <select>
+          <option value="" disabled selected>Objectif principal</option>
+          <option>Perte de poids</option>
+          <option>Prise de masse</option>
+          <option>Remise en forme</option>
+          <option>Endurance & cardio</option>
+          <option>Bien-être & flexibilité</option>
+        </select>
+        <select>
+          <option value="" disabled selected>Abonnement souhaité</option>
+          <option>Starter – 15 000 FCFA/mois</option>
+          <option>Elite – 28 000 FCFA/mois</option>
+          <option>VIP – 55 000 FCFA/mois</option>
+          <option>Je veux être conseillé(e)</option>
+        </select>
+        <textarea placeholder="Message ou question (optionnel)"></textarea>
+        <button class="btn-submit-fire">🔥 Je veux commencer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Iron <span>Coast</span></div>
+        <p>La salle de sport premium d'Abidjan. Équipements haut de gamme, coachs certifiés, résultats garantis.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#programme">Programmes</a></li>
+          <li><a href="#coachs">Nos coachs</a></li>
+          <li><a href="#tarifs">Tarifs</a></li>
+          <li><a href="#inscription">S'inscrire</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Horaires</h4>
+        <ul>
+          <li><a href="#">Lundi – Vendredi : 6h – 22h</a></li>
+          <li><a href="#">Samedi : 7h – 20h</a></li>
+          <li><a href="#">Dimanche : 8h – 14h</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Iron Coast Fitness. Tous droits réservés.</span>
+      <span>Site réalisé par <strong style="color:var(--orange)">Digital Queen Studio</strong></span>
+    </div>
+  </footer>
+
+  <script>
+    // NAV
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // REVEAL
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
